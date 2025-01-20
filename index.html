@@ -41,7 +41,9 @@
 </head>
 <body>
   <div class="iframe-container">
-    <iframe id="mainFrame" src="https://script.google.com/macros/s/AKfycbxkwr8b-zqan1PfoxiKdrAblv6PGo4IlAjioK0Vy6nkRJ_oj3IDLsa6q-f-E5hLBrTl/exec"></iframe>
+    <iframe id="mainFrame" 
+            sandbox="allow-scripts allow-forms allow-same-origin" 
+            src="https://script.google.com/macros/s/AKfycbxkwr8b-zqan1PfoxiKdrAblv6PGo4IlAjioK0Vy6nkRJ_oj3IDLsa6q-f-E5hLBrTl/exec"></iframe>
   </div>
   <script>
     if ('serviceWorker' in navigator) {
@@ -56,9 +58,21 @@
       });
     }
 
-    // iframe 메시지 리스너 추가
+    // iframe 내 페이지 변경 감지
+    document.getElementById('mainFrame').addEventListener('load', function() {
+      try {
+        const currentUrl = this.contentWindow.location.href;
+        // 현재 URL이 로그인 페이지가 아닌 경우 (로그인 성공 후)
+        if (currentUrl !== this.src) {
+          // iframe의 src를 현재 URL로 업데이트
+          this.src = currentUrl;
+        }
+      } catch (e) {
+        console.log('iframe 접근 제한으로 인한 오류:', e);
+      }
+    });
+
     window.addEventListener('message', function(event) {
-      // 로그인 성공 메시지를 받으면 새로운 URL로 iframe src 변경
       if (event.data && event.data.type === 'loginSuccess' && event.data.redirectUrl) {
         document.getElementById('mainFrame').src = event.data.redirectUrl;
       }
