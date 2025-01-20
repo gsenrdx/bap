@@ -1,8 +1,10 @@
 const CACHE_NAME = 'banwol-app-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  '/bap/',
+  '/bap/index.html',
+  '/bap/manifest.json',
+  '/bap/icons/icon-192x192.png',
+  '/bap/icons/icon-512x512.png'
 ];
 
 self.addEventListener('install', event => {

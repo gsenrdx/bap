@@ -1,25 +1,38 @@
 <!DOCTYPE html>
+<!-- GitHub Pages Test Deploy -->
 <html>
 <head>
   <title>BAP - 반월 열배관망 관리 시스템</title>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
   <link rel="apple-touch-icon" href="icons/icon-192x192.png">
   <style>
-    .iframe-container {
-      position: relative;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
       width: 100%;
-      padding-top: 56.25%; /* 16:9 비율 (9 / 16 = 0.5625) */
+      overflow: hidden;
+      position: fixed;
+    }
+
+    .iframe-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
     }
 
     .iframe-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       border: 0;
@@ -33,7 +46,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('/bap/service-worker.js')
           .then(registration => {
             console.log('ServiceWorker registration successful');
           })
