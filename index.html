@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BAP - 반월 열배관망 관리 시스템</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  <style>
+    .iframe-container {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 비율 (9 / 16 = 0.5625) */
+      overflow: hidden;
+    }
+
+    .iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="iframe-container">
+    <iframe src="https://script.google.com/macros/s/AKfycbxkwr8b-zqan1PfoxiKdrAblv6PGo4IlAjioK0Vy6nkRJ_oj3IDLsa6q-f-E5hLBrTl/exec"></iframe>
+  </div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
