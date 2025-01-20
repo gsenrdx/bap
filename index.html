@@ -36,14 +36,25 @@
       width: 100%;
       height: 100%;
       border: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
     }
   </style>
 </head>
 <body>
   <div class="iframe-container">
-    <iframe id="mainFrame" 
+    <iframe id="loginFrame" 
             sandbox="allow-scripts allow-forms allow-same-origin" 
             src="https://script.google.com/macros/s/AKfycbxkwr8b-zqan1PfoxiKdrAblv6PGo4IlAjioK0Vy6nkRJ_oj3IDLsa6q-f-E5hLBrTl/exec"></iframe>
+    <iframe id="mainContentFrame" 
+            class="hidden"
+            sandbox="allow-scripts allow-forms allow-same-origin" 
+            src="about:blank"></iframe>
   </div>
   <script>
     if ('serviceWorker' in navigator) {
@@ -58,23 +69,23 @@
       });
     }
 
-    // iframe 내 페이지 변경 감지
-    document.getElementById('mainFrame').addEventListener('load', function() {
+    // iframe 로드 이벤트 처리
+    document.getElementById('loginFrame').addEventListener('load', function() {
       try {
         const currentUrl = this.contentWindow.location.href;
+        const originalLoginUrl = "https://script.google.com/macros/s/AKfycbxkwr8b-zqan1PfoxiKdrAblv6PGo4IlAjioK0Vy6nkRJ_oj3IDLsa6q-f-E5hLBrTl/exec";
+        
         // 현재 URL이 로그인 페이지가 아닌 경우 (로그인 성공 후)
-        if (currentUrl !== this.src) {
-          // iframe의 src를 현재 URL로 업데이트
-          this.src = currentUrl;
+        if (currentUrl !== originalLoginUrl) {
+          const mainFrame = document.getElementById('mainContentFrame');
+          mainFrame.src = currentUrl;
+          
+          // 프레임 전환
+          this.classList.add('hidden');
+          mainFrame.classList.remove('hidden');
         }
       } catch (e) {
         console.log('iframe 접근 제한으로 인한 오류:', e);
-      }
-    });
-
-    window.addEventListener('message', function(event) {
-      if (event.data && event.data.type === 'loginSuccess' && event.data.redirectUrl) {
-        document.getElementById('mainFrame').src = event.data.redirectUrl;
       }
     });
   </script>
